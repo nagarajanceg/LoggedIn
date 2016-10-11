@@ -11,6 +11,11 @@ var userSchema = new Schema({
 		type:String,
 		required: true
 	},
+	email:{
+		type:String,
+		required: true,
+		unique: true
+	},
 	created_at: Date
 });
 

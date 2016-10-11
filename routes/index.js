@@ -7,8 +7,4 @@ var Init = require('../app/init/initialize')();
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
-router.get('/login',function(req, res, next){
-	console.log("reached router");
-	res.send('logging in');
-});
 module.exports = router;
