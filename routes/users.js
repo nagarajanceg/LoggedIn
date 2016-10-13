@@ -1,80 +1,26 @@
 var express = require('express');
 var router = express.Router();
-var morgan = require('morgan');
-var logger = morgan('combined');
-var queryHelper = require('../app/helpers/queryHelper')();
-
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+var userController = require('../app/controllers/userController')();
 
 /* Add new Users */
-router.get('/add',function(req, res, next){
-	var userDetails = { name: req.query.name, 
-						password: req.query.password, 
-						email: req.query.email
-					};
-	queryHelper.registerUser(userDetails, function(err, status){
-		if(status){
-			res.send("Success in Register");
-		}else{
-			res.send("Failure in Register");
-		}
-	})
-	
-});
+router.route('/add')
+.get(userController.addUser);
 
-/* list all users */
-router.get('/get',function(req, res, next){
-	logger(req, res, function(err){
-		if(err)
-		return done(err);
-		queryHelper.getAll(function(err, users){
-			res.send(users);
-		});
-	})	
-});
+/* List all users */
+router.route('/get')
+.get(userController.getUsers);
 
-/* delete users */
-router.get('/delete', function(req, res, next){
-	var name = req.query.name;
-	queryHelper.remove(name, function(err, status){
-		if(status){
-			res.send(name + " removed successfully");  
-		}else{
-			res.send(name + "unsuccessfull");
-		}
-	})
-});
+/* Delete users */
+router.route('/delete')
+.get(userController.deleteUser)
 
-/* update the existing users */
-router.get('/update', function(req, res, next){
-	var updatedDetails = {name : req.query.name, updatedName: req.query.updatedName};
-	queryHelper.updateUser(updatedDetails, function(err, status){
-		if(status){
-			res.send(updatedDetails.name + " updated successfully");
-		}else{
-			res.send(updatedDetails.name + " update failed");
-		}
-	})
-});
 
-/* login validation check */
-router.get('/login',function(req, res, next){
-	var findQuery = {email: req.query.email}
-	queryHelper.getUser(findQuery, function(err, user){
-		if(user){
-			console.log(user);
-			if(user.password == req.query.password){
-				res.send('logging in');
-			}else{
-				res.send('email or password is wrong');
-			}
-		}else{
-			res.send('No users available');		
-		}
-	})
-	
-});
+/* Update the existing users */
+router.route('/update')
+.get(userController.updateUser);
+
+/* Login validation check */
+router.route('/login')
+.get(userController.validateLogin)
+
 module.exports = router;

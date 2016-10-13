@@ -43,12 +43,22 @@ var User = require('../models/login');
 		})
 	};
 	var findUserByEmail = function(query, callback){
-		User.find({email:query.email}, function(err, user){
-			if(err){
-				console.log("error ib findUserByEmail");
-			}
+		User.find({email:query.email})
+		.then(function(user){
 			callback(null, user[0]);
-		})
+		}, function(err){
+			console.log("error in findUserByEmail");
+			callback(err, null);
+		});
+	};
+	var findOne = function(query, callback){
+		User.findOne({email: query})
+		.then(function(user){
+			callback(null, user);
+		},function(err){
+			console.log("error in find User");
+			callback(err, null);
+		});
 	};
 
 	return {
@@ -56,7 +66,8 @@ var User = require('../models/login');
 		remove : removeUser,
 		registerUser : insertUser,
 		updateUser : updateUser,
-		getUser : findUserByEmail
+		getUser : findUserByEmail,
+		findUser: findOne
 	}
 }
 
