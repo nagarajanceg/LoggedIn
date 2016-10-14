@@ -11,7 +11,7 @@ module.exports ={
 	},
 	verifyToken : function(token, callback){
 		jwt.verify(token, config.secret, function(err, decoded){
-			//error occurs at token mismatch;
+			//error occurs at token mismatch and expired time;
 			if(err){
 				callback(false);
 				return;

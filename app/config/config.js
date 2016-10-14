@@ -1,6 +1,6 @@
 module.exports = {
 	secret: 'sample',
-	tokenExpireTime : 20 ,/* in minutes*/
+	tokenExpireTime : 30 ,/* in seconds*/
 	// database url
 	db: {
 		url : 'mongodb://localhost/login'

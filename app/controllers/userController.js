@@ -45,17 +45,19 @@ module.exports = function(){
 		res.header('Access-Control-Allow-Origin', '*');
 		var updatedDetails = {name : req.query.name, updatedName: req.query.updatedName};
 		auth.verifyToken(req.query.token, function(validToken){
-			if(!val){
+			if(!validToken){
 				res.send("token auth error");
-			}
-		});
-		queryHelper.updateUser(updatedDetails, function(err, status){
-			if(status){
-				res.send(updatedDetails.name + " updated successfully");
 			}else{
-				res.send(updatedDetails.name + " update failed");
+				queryHelper.updateUser(updatedDetails, function(err, status){
+					if(status){
+						res.send(updatedDetails.name + " updated successfully");
+					}else{
+						res.send(updatedDetails.name + " update failed");
+					}
+				});
 			}
 		});
+		
 	};
 
 	var validate = function(req, res, next){
