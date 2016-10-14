@@ -4,7 +4,7 @@ var userController = require('../app/controllers/userController')();
 
 /* Add new Users */
 router.route('/add')
-.get(userController.addUser);
+.post(userController.addUser);
 
 /* List all users */
 router.route('/get')
@@ -12,12 +12,12 @@ router.route('/get')
 
 /* Delete users */
 router.route('/delete')
-.get(userController.deleteUser)
+.delete(userController.deleteUser)
 
 
 /* Update the existing users */
 router.route('/update')
-.get(userController.updateUser);
+.post(userController.updateUser);
 
 /* Login validation check */
 router.route('/login')

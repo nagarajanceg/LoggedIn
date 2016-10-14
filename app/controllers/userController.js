@@ -2,11 +2,12 @@ var queryHelper = require('../helpers/queryHelper')();
 var morgan = require('morgan');
 var logger = morgan('combined');
 var auth = require('../auth/auth');
+var secure = require('../helpers/cryptHash');
 module.exports = function(){
 	var add = function(req, res, next){
 		res.header('Access-Control-Allow-Origin', '*');
 		var userDetails = 	{ 	name: req.query.name, 
-								password: req.query.password, 
+								password: secure.hash(req.query.password), 
 								email: req.query.email
 							};
 		queryHelper.registerUser(userDetails, function(err, status){
@@ -69,7 +70,7 @@ module.exports = function(){
 		};
 		queryHelper.findUser(email, function(err, user){
 			if(user){
-				if(user.password == password){
+				if(secure.compare(password, user.password)){
 					var token = auth.signToken(user._id);
 					res.status(200).json({
 						status : "Success",

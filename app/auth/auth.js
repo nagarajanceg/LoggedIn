@@ -13,6 +13,7 @@ module.exports ={
 		jwt.verify(token, config.secret, function(err, decoded){
 			//error occurs at token mismatch and expired time;
 			if(err){
+				console.log(err.name);
 				callback(false);
 				return;
 			}
