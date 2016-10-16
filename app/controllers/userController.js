@@ -5,7 +5,6 @@ var auth = require('../auth/auth');
 var secure = require('../helpers/cryptHash');
 module.exports = function(){
 	var add = function(req, res, next){
-		res.header('Access-Control-Allow-Origin', '*');
 		var userDetails = 	{ 	name: req.query.name, 
 								password: secure.hash(req.query.password), 
 								email: req.query.email
@@ -20,7 +19,6 @@ module.exports = function(){
 	};
 
 	var get = function(req, res, next){
-		res.header('Access-Control-Allow-Origin', '*');
 		logger(req, res, function(err){
 			if(err)
 			return done(err);
@@ -31,7 +29,6 @@ module.exports = function(){
 	};
 
 	var remove = function(req, res, next){
-		res.header('Access-Control-Allow-Origin', '*');
 		var name = req.query.name;
 		queryHelper.remove(name, function(err, status){
 			if(status){
@@ -43,7 +40,6 @@ module.exports = function(){
 	};
 
 	var update = function(req, res, next){
-		res.header('Access-Control-Allow-Origin', '*');
 		var updatedDetails = {name : req.query.name, updatedName: req.query.updatedName};
 		auth.verifyToken(req.query.token, function(validToken){
 			if(!validToken){
@@ -62,7 +58,6 @@ module.exports = function(){
 	};
 
 	var validate = function(req, res, next){
-		 res.header('Access-Control-Allow-Origin', '*');
 		var email = req.query.email;
 		var password = req.query.password
 		if (!email || !password) {
