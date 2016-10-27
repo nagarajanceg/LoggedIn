@@ -5,9 +5,17 @@ var auth = require('../auth/auth');
 var secure = require('../helpers/cryptHash');
 module.exports = function(){
 	var add = function(req, res, next){
-		var userDetails = 	{ 	name: req.query.name, 
-								password: secure.hash(req.query.password), 
-								email: req.query.email
+		var name = req.body.name || req.query.name;
+		var password = req.body.password || req.query.password;
+		var email = req.body.email || req.query.email;
+		
+		if(!name || !password || !email){
+			res.send("No data provided in request");
+		}
+
+		var userDetails = 	{ 	name: name, 
+								password: secure.hash(password), 
+								email: email
 							};
 		queryHelper.registerUser(userDetails, function(err, status){
 			if(status){
@@ -58,8 +66,8 @@ module.exports = function(){
 	};
 
 	var validate = function(req, res, next){
-		var email = req.query.email;
-		var password = req.query.password
+		var password = req.body.password || req.query.password;
+		var email = req.body.email || req.query.email;
 		if (!email || !password) {
 			res.status(401).send("email or password can't be empty");
 		};

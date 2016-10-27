@@ -21,6 +21,6 @@ router.route('/update')
 
 /* Login validation check */
 router.route('/login')
-.get(userController.validateLogin)
+.post(userController.validateLogin)
 
 module.exports = router;
