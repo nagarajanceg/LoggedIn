@@ -1,7 +1,7 @@
 module.exports = {
 	logging: false,
 	db: {
-		url : process.env.MONGOLAB_URI
+		url : process.env.MONGODB_URI
 	}
 }
 }
