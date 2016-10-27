@@ -58,9 +58,10 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+var port = process.env.PORT || 3000;
 
-app.listen("3000",function(){
-  console.log("listening 3000");
+app.listen(port, function(){
+  console.log("listening port",port);
 });
 
 module.exports = app;
