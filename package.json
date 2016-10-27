@@ -4,7 +4,7 @@
   "description": "Login app",
   "private": true,
   "scripts": {
-    "start": "nodemon app"
+    "start": "node app"
   },
   "dependencies": {
     "base-64": "^0.1.0",
@@ -19,8 +19,10 @@
     "mongodb": "^2.2.10",
     "mongoose": "^4.6.3",
     "morgan": "~1.7.0",
-    "nodemon": "^1.11.0",
     "serve-favicon": "~2.3.0"
+  },
+  "devDependencies":{
+    "nodemon": "^1.11.0"
   },
   "engines": {
     "node": "4.4.4"
