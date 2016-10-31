@@ -33,7 +33,7 @@ var User = require('../models/login');
 		})
 	};
 	var updateUser = function(details, callback){
-		User.where({name : details.name})
+		User.where({email : details.email})
 		.update({$set: {name: details.updatedName}}, function(err){
 			if(err) {
 				callback(err, false);

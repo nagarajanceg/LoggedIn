@@ -3,11 +3,12 @@ var morgan = require('morgan');
 var logger = morgan('combined');
 var auth = require('../auth/auth');
 var secure = require('../helpers/cryptHash');
+
 module.exports = function(){
 	var add = function(req, res, next){
-		var name = req.body.name || req.query.name;
-		var password = req.body.password || req.query.password;
-		var email = req.body.email || req.query.email;
+		var name = req.body.name;
+		var password = req.body.password;
+		var email = req.body.email;
 		
 		if(!name || !password || !email){
 			res.send("No data provided in request");
@@ -48,26 +49,29 @@ module.exports = function(){
 	};
 
 	var update = function(req, res, next){
-		var updatedDetails = {name : req.query.name, updatedName: req.query.updatedName};
-		auth.verifyToken(req.query.token, function(validToken){
-			if(!validToken){
-				res.send("token auth error");
-			}else{
+		var email = req.body.email;
+		var updatedName = req.body.updatedName;
+		var token = req.body.token;
+		var updatedDetails = {email :email, updatedName: updatedName};
+		// auth.verifyToken(token, function(validToken){
+		// 	if(!validToken){
+		// 		res.send("token auth error");
+		// 	}else{
 				queryHelper.updateUser(updatedDetails, function(err, status){
 					if(status){
-						res.send(updatedDetails.name + " updated successfully");
+						res.send(updatedName + " updated successfully");
 					}else{
-						res.send(updatedDetails.name + " update failed");
+						res.send(updatedName + " update failed");
 					}
 				});
-			}
-		});
+		// 	}
+		// });
 		
 	};
 
 	var validate = function(req, res, next){
-		var password = req.body.password || req.query.password;
-		var email = req.body.email || req.query.email;
+		var password = req.body.password;
+		var email = req.body.email;
 		if (!email || !password) {
 			res.status(401).send("email or password can't be empty");
 		};

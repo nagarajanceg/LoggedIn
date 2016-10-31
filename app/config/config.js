@@ -1,7 +1,7 @@
 var _ = require('lodash');
  var config= {
 	secret: 'sample',
-	tokenExpireTime : 30 ,/* in seconds*/
+	tokenExpireTime : 120 ,/* in seconds*/
 	dev : 'development'
 }
 
