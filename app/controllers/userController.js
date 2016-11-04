@@ -11,7 +11,7 @@ module.exports = function(){
 		var email = req.body.email;
 		
 		if(!name || !password || !email){
-			res.send("No data provided in request");
+			res.send({status:false, message:"No data provided in request"});
 		}
 
 		var userDetails = 	{ 	name: name, 
@@ -20,9 +20,9 @@ module.exports = function(){
 							};
 		queryHelper.registerUser(userDetails, function(err, status){
 			if(status){
-				res.send("Success in Register");
+				res.send({status:true, message:"Success in Register"});
 			}else{
-				res.send("Failure in Register");
+				res.send({status:false, message:"Failure in Register"});
 			}
 		});
 	};
@@ -41,9 +41,9 @@ module.exports = function(){
 		var name = req.query.name;
 		queryHelper.remove(name, function(err, status){
 			if(status){
-				res.send(name + " removed successfully");  
+				res.send({status:true, name: name});  
 			}else{
-				res.send(name + "unsuccessfull");
+				res.send({status:false, name: name});
 			}
 		});
 	};
@@ -59,9 +59,9 @@ module.exports = function(){
 		// 	}else{
 				queryHelper.updateUser(updatedDetails, function(err, status){
 					if(status){
-						res.send(updatedName + " updated successfully");
+						res.send({status: true, updatedDetails: updatedDetails} );
 					}else{
-						res.send(updatedName + " update failed");
+						res.send({status: false, updatedDetails: updatedDetails} );
 					}
 				});
 		// 	}
@@ -72,22 +72,32 @@ module.exports = function(){
 	var validate = function(req, res, next){
 		var password = req.body.password;
 		var email = req.body.email;
-		if (!email || !password) {
-			res.status(401).send("email or password can't be empty");
+			if (!email || !password) {
+			res.status(401).json({
+				status : false,
+				message:"email or password can't be empty"
+			});
 		};
 		queryHelper.findUser(email, function(err, user){
 			if(user){
 				if(secure.compare(password, user.password)){
 					var token = auth.signToken(user._id);
 					res.status(200).json({
-						status : "Success",
+						status : true,
+						message: "Success",
 						token : token
 					});
 				}else{
-					res.send('email or password is wrong');
+					res.status(200).json({
+						status : false,
+						message:'email or password is wrong'
+						});
 				}
 			}else{
-				res.send('No users available');		
+				res.status(200).json({
+					status: false,
+					message:'No users available'
+				});
 			}
 		});
 	};
